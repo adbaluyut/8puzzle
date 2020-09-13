@@ -1,6 +1,5 @@
 from Node import Node
 from collections import deque
-import sys
 
 def evenParity(start_state):
 	num_inversions = countInversions(start_state)
