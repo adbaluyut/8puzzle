@@ -1,9 +1,9 @@
 class Node:
-	def __init__(self, data=None, parent=None, depth=0, cost=0):
+	def __init__(self, data=None, parent=None, depth=0, weight=0):
 		self.data = data
 		self.parent = parent
 		self.depth = depth
-		self.cost = cost
+		self.weight = weight
 
 
 	def findEmpty(self):
