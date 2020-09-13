@@ -42,33 +42,26 @@ def bfs(state,goal):
 		# print(f"loop {count}")
 		newState = fringe.popleft() #queue
 		closed.append(newState) # add the newstate to explored/ close
-		# print("newState data:")
-		# print(newState.data)
-		# print("closed data:")
-		# print(closed)
-	# 	if goalTest(state):
-	# 		return state
 		if newState.data == goal:
+			# print("fringe:")
+			# for i in fringe:
+			# 	print(i.data)
+			# print("closed:")
+			# for i in closed:
+			# 	print(i.data)
 			# return the path from start to goal
 			print("\ngoal found")
 			# while there is a parent print the parent
 			sequence(newState)
+			print(f"Number of Nodes expanded {len(closed)}")
+			print(f"Number of Nodes in the search space {len(fringe) + len(closed)}")
 			return True #True for testing
 
 		for neighbor in newState.checkMoves(): # check every move we can make
-			# print ("neighbor:",neighbor)
-			# print(f"fringe before append {fringe}")
 			if neighbor not in closed: #if we didn't explore/ close the node
 				fringe.append(neighbor) # add the neighbor/ child to fringe
-				# print("fringe:",fringe)
-				closed.append(newState) # add the current state to closed
-		
-		# count += 1
-		# if count == 3:
-		# 	break #remove after testing
-
-
-
+				closed.append(neighbor) # add the current state to closed
+				
 
 def main():
 
@@ -78,8 +71,8 @@ def main():
 	# start_state = input("Please input a start state of the 8 puzzle: ")
 	# goal_state = input("Now please enter a goal state for the puzzle: ")
 
-	start_state = [1,0,3,
-								 4,2,5,
+	start_state = [1,2,3,
+								 4,5,0,
 								 7,8,6]
 	goal_state =  [1,2,3,
 								 4,5,6,
