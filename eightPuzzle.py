@@ -196,12 +196,19 @@ def main():
 	# start_state = input("Please input a start state of the 8 puzzle: ")
 	# goal_state = input("Now please enter a goal state for the puzzle: ")
 
-	start_state = [1,4,2,
-				   3,0,5,
-				   6,7,8]
+	start_state = [1,2,5,
+				   6,3,4,
+				   7,8,0]
 	goal_state =  [0,1,2,
 				   3,4,5,
 				   6,7,8]
+
+	# start_state = [5,3,0,
+	# 			   8,4,7,
+	# 			   6,1,2]
+	# goal_state =  [1,7,5,
+	# 			   2,3,0,
+	# 			   8,6,4]
 
 	# start_state = [2,8,3,
 	# 			     1,6,4,
@@ -218,9 +225,9 @@ def main():
 		current_state = Node(start_state)
 
 		#Run each search algorithm to compare.
-		print("Running Breadth First Search:\n")
+		print("Running Breadth-First Search:\n")
 		bfs(current_state,goal_state)
-		print("\nRunning Greedy Best First Search:\n")
+		print("\nRunning Greedy Best-First Search:\n")
 		gbfs(current_state,goal_state)
 		print("\nRunning A* with Misplaced Tiles Heuristic:\n")
 		aStarMisplacedTiles(current_state,goal_state)
