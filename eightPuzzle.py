@@ -172,7 +172,7 @@ def main():
 	# goal_state = input("Now please enter a goal state for the puzzle: ")
 
 	start_state = [4,1,3,
-				   0,2,5,
+				   2,5,0,
 				   7,8,6]
 	goal_state =  [1,2,3,
 				   4,5,6,
