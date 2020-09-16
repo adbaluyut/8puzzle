@@ -33,6 +33,7 @@ def sequence(state,count,count_list):
 	count += 1
 	count_list.append(count)
 	if state.parent is None:
+		print('\nThe initial state is: \n')
 		printBoard(state.data)
 		return
 	sequence(state.parent,count, count_list)
@@ -91,6 +92,7 @@ def bfs(state,goal):
 			print(f"The number of nodes expanded were: {len(closed)}")
 			print(f"The total number of nodes in the search space were: {len(fringe) + len(closed)}")
 			print(f"The length of the solution path was: {len(count_list)-1}\n") #This is also just the number of times the board was printed right?
+			print("-----------------------------------------------------------")
 			return True #True for testing
 
 		for neighbor in newState.checkMoves(): # check every move we can make
@@ -117,6 +119,7 @@ def gbfs(state,goal):
 			print(f"The number of nodes expanded were: {len(closed)}")
 			print(f"The total number of nodes in the search space were: {len(fringe) + len(closed)}")
 			print(f'The length of the solution path was: {len(count_list)-1}') #This is also just the number of times the board was printed right?
+			print("-----------------------------------------------------------")
 			return True #True for testing
 
 		for neighbor in newState.checkMoves(): # check every move we can make
@@ -145,6 +148,7 @@ def aStarMisplacedTiles(state,goal):
 			print(f"The number of nodes expanded were: {len(closed)}")
 			print(f"The total number of nodes in the search space were: {len(fringe) + len(closed)}")
 			print(f'The length of the solution path was: {len(count_list)-1}') #This is also just the number of times the board was printed right?
+			print("-----------------------------------------------------------")
 			return True #True for testing
 
 		for neighbor in newState.checkMoves(): # check every move we can make
@@ -172,6 +176,7 @@ def aStarManhattanDistance(state,goal):
 			print(f"The number of nodes expanded were: {len(closed)}")
 			print(f"The total number of nodes in the search space were: {len(fringe) + len(closed)}")
 			print(f'The length of the solution path was: {len(count_list)-1}') #This is also just the number of times the board was printed right?
+			print("-----------------------------------------------------------")
 			return True #True for testing
 
 		for neighbor in newState.checkMoves(): # check every move we can make
@@ -191,12 +196,12 @@ def main():
 	# start_state = input("Please input a start state of the 8 puzzle: ")
 	# goal_state = input("Now please enter a goal state for the puzzle: ")
 
-	start_state = [4,1,3,
-				   2,5,0,
-				   7,8,6]
-	goal_state =  [1,2,3,
-				   4,5,6,
-				   7,8,0]
+	start_state = [1,4,2,
+				   3,0,5,
+				   6,7,8]
+	goal_state =  [0,1,2,
+				   3,4,5,
+				   6,7,8]
 
 	# start_state = [2,8,3,
 	# 			     1,6,4,
@@ -207,19 +212,19 @@ def main():
 	# 							 6,7,8]
 
 	current_state = Node(start_state)
-	print(f"manhattan: {manhattan(start_state,goal_state)}")
-
-	print(f"The number of misplaced tiles is: {misplacedTiles(start_state,goal_state)}\n")
 
 	if evenParity(start_state):
-		print('Great choice, this puzzle is solvable.')
-		print('\nOur initial state is: ')
+		print('Great choice, this puzzle is solvable.\n')
 		current_state = Node(start_state)
 
-		#Run each search algorithm to compare. 
+		#Run each search algorithm to compare.
+		print("Running Breadth First Search:\n")
 		bfs(current_state,goal_state)
+		print("\nRunning Greedy Best First Search:\n")
 		gbfs(current_state,goal_state)
+		print("\nRunning A* with Misplaced Tiles Heuristic:\n")
 		aStarMisplacedTiles(current_state,goal_state)
+		print("\nRunning A* with Manhattan Distance Heuristic:\n")
 		aStarManhattanDistance(current_state,goal_state)
 
 	else: print('I am sorry, but this is not solvable. Please choose a different set.')
