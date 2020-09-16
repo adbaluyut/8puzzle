@@ -59,8 +59,17 @@ def bubbleSort(list):
 			if list[j].weight > list[j+1].weight:
 				list[j], list[j+1] = list[j+1], list[j]
 
-def manhattan():
-	pass
+def manhattan(state, goal):
+	total = 0
+	for i in range(9):
+		if state[i] != 0:total += abs((i % 3) - (findIndex(state[i],goal) % 3)) + abs((i // 3) - (findIndex(state[i],goal) // 3))
+	return total
+	 
+def findIndex(target, goal):
+	for i in range(9):
+		if target == goal[i]:
+			return i
+			
 
 #----Breadth-First Search----#
 
@@ -128,9 +137,6 @@ def aStarMisplacedTiles(state,goal):
 		newState = fringe.popleft() #queue
 		closed.append(newState.data) # add the newstate to explored/ close
 		if newState.data == goal:
-			print("fringe:")
-			for i in fringe:
-				print(i.data, "weight:", i.weight)
 			# return the path from start to goal
 			# while there is a parent print the parent
 			count_list = []
@@ -150,16 +156,30 @@ def aStarMisplacedTiles(state,goal):
 
 #----A* Search using the Manhattan Distance heuristic----#
 
-# def aStarManhattanDistance(state,goal):
-	
-# 	#common print sequence
-# 	print("\nThe goal state was found!")
-# 	# while there is a parent print the parent
-# 	sequence(newState)
-# 	print(f"The number of nodes expanded were: {len(closed)}")
-# 	print(f"The total number of nodes in the search space were: {len(fringe) + len(closed)}")
-# 	print('The length of the solution path was: ') #This is also just the number of times the board was printed right?	
+def aStarManhattanDistance(state,goal):
+	fringe = deque()
+	fringe.append(state)
+	closed = []
+	while fringe:
+		newState = fringe.popleft() #queue
+		closed.append(newState.data) # add the newstate to explored/ close
+		if newState.data == goal:
+			# return the path from start to goal
+			# while there is a parent print the parent
+			count_list = []
+			sequence(newState,0,count_list)
+			print("\nThe goal state was found!")
+			print(f"The number of nodes expanded were: {len(closed)}")
+			print(f"The total number of nodes in the search space were: {len(fringe) + len(closed)}")
+			print(f'The length of the solution path was: {len(count_list)-1}') #This is also just the number of times the board was printed right?
+			return True #True for testing
 
+		for neighbor in newState.checkMoves(): # check every move we can make
+			if neighbor.data not in closed: #if we didn't explore/ close the node
+				neighbor.weight = manhattan(neighbor.data, goal) + newState.weight # cost of misplaced tiles and current state
+				fringe.append(neighbor) # add the neighbor/ child to fringe
+				closed.append(neighbor.data) # add the current state to closed
+		bubbleSort(fringe)
 
 #MAIN
 
@@ -179,13 +199,15 @@ def main():
 				   7,8,0]
 
 	# start_state = [2,8,3,
-	# 			   1,6,4,
-	# 			   7,0,5]
+	# 			     1,6,4,
+	# 			     7,0,5]
+
 	# goal_state =  [0,1,2,
 	# 							 3,4,5,
 	# 							 6,7,8]
 
 	current_state = Node(start_state)
+	print(f"manhattan: {manhattan(start_state,goal_state)}")
 
 	print(f"The number of misplaced tiles is: {misplacedTiles(start_state,goal_state)}\n")
 
@@ -195,10 +217,10 @@ def main():
 		current_state = Node(start_state)
 
 		#Run each search algorithm to compare. 
-		# bfs(current_state,goal_state)
+		bfs(current_state,goal_state)
 		gbfs(current_state,goal_state)
 		aStarMisplacedTiles(current_state,goal_state)
-		# aStarManhattanDistance(current_state,goal_state)
+		aStarManhattanDistance(current_state,goal_state)
 
 	else: print('I am sorry, but this is not solvable. Please choose a different set.')
 
