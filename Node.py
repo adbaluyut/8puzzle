@@ -2,7 +2,6 @@ class Node:
 	def __init__(self, data=None, parent=None, depth=0, weight=0):
 		self.data = data
 		self.parent = parent
-		self.depth = depth
 		self.weight = weight
 
 
