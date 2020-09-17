@@ -20,6 +20,8 @@ def countInversions(start_state):
 		    if start_state[j] and start_state[i] and start_state[i] > start_state[j]:
     			start_count += 1
 
+	print(f"The number of inversions is {start_count}")
+
 	return start_count
 
 def printBoard(state):
