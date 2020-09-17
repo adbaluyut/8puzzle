@@ -203,15 +203,37 @@ def main():
 	#Board initialization
 	print("The 8 puzzle solver recieves an input of integers 0-8, the zero representing the blank space.")
 	
-	# start_state = input("Please input a start state of the 8 puzzle: ")
-	# goal_state = input("Now please enter a goal state for the puzzle: ")
+	selection = input("Do you want to create your own start and goal states (y/n)?")
 
-	start_state = [1,4,2,
-				   6,0,3,
-				   8,7,5]
-	goal_state =  [0,1,2,
-				   7,8,3,
-				   6,5,4]
+	if selection == 'y':
+		print("Please input a start state of the 8 puzzle: ")
+		
+		start_state = []
+		for i in range(9):
+			tile = int(input())
+			if 0 > tile or tile >8:
+				print(f"You can't use {tile}")
+				sys.exit(1)
+			start_state.append(tile)	
+
+		print("Now please enter a goal state for the puzzle: ")
+
+		goal_state = []
+		for i in range(9):
+			tile = int(input())
+			if 0 > tile or tile >8:
+				print(f"You can't use {tile}")
+				sys.exit(1)
+			goal_state.append(tile)
+
+	else:
+		print(f"Using default boards")
+		start_state = [1,4,2,
+					   6,0,3,
+					   8,7,5]
+		goal_state =  [0,1,2,
+					   7,8,3,
+					   6,5,4]					
 
 	current_state = Node(start_state)
 
