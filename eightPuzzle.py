@@ -8,20 +8,29 @@ import sys
 
 # Program function declarations
 
-def evenParity(start_state):
-	num_inversions = countInversions(start_state)
+def evenParity(start_state,goal):
+	num_inversions = countInversions(start_state,goal)
 	return (num_inversions % 2 == 0)
 
-def countInversions(start_state):
+def countInversions(start_state,goal):
 	start_count = 0
+	ranked_state = {}
+	start_convert = []
+	goal_convert = []
+
+	# Place the numbers in a dictionary to map the numbers to the 
+	# position on the board
+	for i in range(len(goal)):
+		ranked_state[goal[i]] = i
+
+	for i in range(len(goal)):
+		start_convert.append(ranked_state[start_state[i]])
+		goal_convert.append(i)
 
 	for i in range(8):
-	    for j in range(i+1, 9):
-		    if start_state[j] and start_state[i] and start_state[i] > start_state[j]:
-    			start_count += 1
-
-	print(f"The number of inversions is {start_count}")
-
+		for j in range(i+1, 9):
+			if start_convert[j] and start_convert[i] and start_convert[i] > start_convert[j]:
+				start_count += 1
 	return start_count
 
 def printBoard(state):
@@ -82,7 +91,6 @@ def bfs(state,goal):
 	fringe.append(state)
 	closed = []
 	while fringe:
-		# print(f"loop {count}")
 		newState = fringe.popleft() #queue
 		closed.append(newState.data) # add the newstate to explored/ close
 		if newState.data == goal:
@@ -198,34 +206,18 @@ def main():
 	# start_state = input("Please input a start state of the 8 puzzle: ")
 	# goal_state = input("Now please enter a goal state for the puzzle: ")
 
-	start_state = [1,2,5,
-				   6,3,4,
-				   7,8,0]
+	start_state = [1,4,2,
+				   6,0,3,
+				   8,7,5]
 	goal_state =  [0,1,2,
-				   3,4,5,
-				   6,7,8]
-
-	# start_state = [5,3,0,
-	# 			   8,4,7,
-	# 			   6,1,2]
-	# goal_state =  [1,7,5,
-	# 			   2,3,0,
-	# 			   8,6,4]
-
-	# start_state = [2,8,3,
-	# 			     1,6,4,
-	# 			     7,0,5]
-
-	# goal_state =  [0,1,2,
-	# 							 3,4,5,
-	# 							 6,7,8]
+				   7,8,3,
+				   6,5,4]
 
 	current_state = Node(start_state)
 
-	if evenParity(start_state):
+	if evenParity(start_state, goal_state):
 		print('Great choice, this puzzle is solvable.\n')
 		current_state = Node(start_state)
-
 		#Run each search algorithm to compare.
 		print("Running Breadth-First Search:\n")
 		bfs(current_state,goal_state)
@@ -236,8 +228,8 @@ def main():
 		print("\nRunning A* with Manhattan Distance Heuristic:\n")
 		aStarManhattanDistance(current_state,goal_state)
 
-	else: print('I am sorry, but this is not solvable. Please choose a different set.')
+	else: 
+		print('I am sorry, but this is not solvable. Please choose a different set.')
 
-		
 if __name__ == "__main__":
 	main()
